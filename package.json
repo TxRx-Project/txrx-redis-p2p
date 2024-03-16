@@ -1,0 +1,54 @@
+{
+  "name": "data",
+  "version": "1.1.1",
+  "description": "TxRx - Redis based P2P discovery",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "author": "klez",
+  "license": "ISC",
+  "dependencies": {
+    "@txrx/otel-instrumentation": "^1.1.1",
+    "@txrx/redis-consumer": "^1.1.1",
+    "@txrx/redis-streamer": "^1.1.1",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsdoc": "^46.9.1",
+    "eslint-plugin-tsdoc": "^0.2.17",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.3"
+  },
+  "files": [
+    "src/",
+    "dist/",
+    "types/",
+    "README.md",
+    "package.json",
+    "index.ts"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TxRx-Project/txrx-redis-p2p"
+  },
+  "bugs": {
+    "url": "https://github.com/TxRx-Project/txrx-redis-p2p/issues"
+  },
+  "homepage": "https://github.com/TxRx-Project/txrx-redis-p2p"
+}
