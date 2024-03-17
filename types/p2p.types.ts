@@ -18,6 +18,20 @@ export enum P2PMode {
     LISTENER,
 };
 
+export const SHARD_GLUE = ',';
+
+
+export type P2PConfiguration = {
+    peer: string;
+    redis: {
+        connstring: string;
+        stream: {
+            name: string;
+            maxlen: number;
+        };
+    };
+};
+
 /**
  * A proxy symbol for the for {@link P2PMapping}.
  */
@@ -32,3 +46,8 @@ export const PeerShards = Symbol('PeerShards');
  * A proxy symbol for the for {@link P2PHandlers}.
  */
 export const P2PHandlers = Symbol('P2PHandlers');
+
+/**
+ * A proxy symbol for the for {@link P2PConfiguration}.
+ */
+export const P2PConfiguration = Symbol('P2PConfiguration');

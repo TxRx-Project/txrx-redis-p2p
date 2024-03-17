@@ -1,4 +1,4 @@
-import { P2PMapping } from "../types/p2p.types";
+import { P2PMapping, SHARD_GLUE } from "../types/p2p.types";
 
 export default class Shard {
     private static shard: Shard;
@@ -32,11 +32,11 @@ export default class Shard {
             shard.push(event, this.mapping[event]);
         }
 
-        return shard.join(',');
+        return shard.join(SHARD_GLUE);
     }
 
     public static unserialize(shard: string): P2PMapping {
-        const chunks = shard.split(',') as string[];
+        const chunks = shard.split(SHARD_GLUE) as string[];
 
         if (chunks.length % 2 !== 0) {
             return {};
@@ -45,5 +45,15 @@ export default class Shard {
         return Object.fromEntries(chunks.flatMap((_, i, a) => {
             return i % 2 ? [] : [a.slice(i, i + 2)];
         })) as P2PMapping;
+    }
+
+    public static async destroy(): Promise<P2PMapping> {
+        const shard = await Shard.get();
+        const mapping = shard.get();
+        
+        shard.mapping = {};
+        Shard.shard = undefined;
+
+        return mapping;
     }
 }

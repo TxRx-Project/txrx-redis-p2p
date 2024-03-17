@@ -1,9 +1,10 @@
 import { ConsumeItem } from "@txrx/redis-consumer";
+import { Span } from "@txrx/otel-instrumentation";
 import { P2PHandlers } from "../types/p2p.types";
 import * as path from 'path';
 import { promises as fsp } from 'fs';
 import Handler from "./handler";
-import { Span } from "@txrx/otel-instrumentation";
+import Configuration from "./configuration";
 
 export default class Registry {
     private static registry: Registry;
@@ -17,7 +18,8 @@ export default class Registry {
 
     public static async get(): Promise<Registry> {
         if (!Registry.registry) {
-            Registry.registry = new Registry(process.env.REDIS_P2P!);
+            const redisConnstring = Configuration.redisConnstring();
+            Registry.registry = new Registry(redisConnstring);
             await Registry.registry.load();
         }
 
@@ -43,5 +45,18 @@ export default class Registry {
 
     public compute(event: string): (item: ConsumeItem, parent: Span) => Promise<void> | null {
         return this.mapping[event];
+    }
+
+    public get(): P2PHandlers {
+        return this.mapping;
+    }
+
+    public static async destroy(): Promise<P2PHandlers> {
+        const registry = await Registry.get();
+        const mapping = registry.get();
+
+        Registry.registry = null;
+
+        return mapping;
     }
 }
